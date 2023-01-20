@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="form-validation.js"></script>
+
+    <!-- Include jQuery Validation Plugin-->
+
+    <script src="https://cdn.jsdelivr.net/jquery.validation/1.15.1/jquery.validate.min.js"></script>
+
+    <!-- Latest compiled and minified JavaScript for Bootstrap -->
+    <script
+      src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+      integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+      crossorigin="anonymous"
+    ></script>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Final Project!</title>
+
+    <!-- import the webpage's stylesheet -->
+    <link rel="stylesheet" href="style.css" />
+
+    <!-- import the webpage's javascript file -->
+    <script src="/script.js" defer></script>
+  </head>
+  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css" />
+  <body>
+    <div class="w3-top">
+      <div class="w3-bar w3-khaki w3-xlarge w3-padding w3-card">
+        <a href="index.html" class="w3-bar-item w3-button active w3-hide-small">
+          Andres Alvarez</a
+        >
+        <div class="w3-right">
+          <a href = "index.html" class = "w3-bar-item w3-button">About Me</a>
+          <a href="projects.html" class="w3-bar-item w3-button">Projects</a>
+          <a href="skills.html" class="w3-bar-item w3-button">Skills</a>
+          <a href="contact.html" class="w3-bar-item w3-button">Contact</a>
+        </div>
+      </div>
+    </div>
+    <section>
+      <div class="w3-container">
+        <!-- THIS IS THE ORIGINAL PNG NEEDED FOR THE RUBRIC -->
+        <img
+          class="w3-image w3-display-bottomright"
+          src="https://cdn.glitch.com/2cbae8f7-a12e-4896-be9c-b58aa4019055%2Fdrawing.png?v=1607978330481"
+          alt="funny character"
+          width="200"
+          height="200"
+        />
+      </div>
+      <div class="w3-container w3-display-middle">
+        <div class="w3-card-4 w3-padding-64">
+          <form
+            action="https://formspree.io/f/xaylpvnj"
+            method="POST"
+            name = "contact"
+            class="w3-container"
+          >
+            <label for = "email">Email</label>
+            <input class="w3-input" type="email" name="email" id="email" placeholder="Fill in please :)"/>
+
+            <label>Name</label>
+            <input class="w3-input" type="text" name="yourname" id="yourname"  placeholder="Hello!"/>
+            <button class="w3-btn w3-blue" type = "submit">Send</button>
+          </form>
+        </div>
+      </div>
+    </section>
+  </body>
+</html>

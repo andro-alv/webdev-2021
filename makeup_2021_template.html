@@ -1,0 +1,418 @@
+<!doctype html>
+<html>
+
+  <head>
+    <title>Makeup Exam</title>
+
+    <style>
+      body {
+        font-family: sans-serif;
+      }
+
+      #form {
+        clear: both;
+        padding-top: 20px;
+      }
+
+      .container {
+        height: 280px;
+        border: 1px solid #ccc;
+        width: 750px;
+      }
+
+      #fainted {
+        width: 100%;
+      }
+
+      .pokemon_card {
+        width: 150px;
+        border: 1px solid black;
+        float: left;
+        height: 280px;
+        box-sizing: border-box;
+      }
+
+      .pokemon_card img {
+        width: 100%;
+      }
+
+      .pokemon_card p {
+        text-align: center;
+        font-size: 120%;
+      }
+
+      #c1 {
+        width: 750px;
+        border: 1px solid black;
+        min-height: 280px;
+      }
+
+      #c2 {
+        width: 750px;
+        border: 1px solid black;
+        min-height: 280px;
+      }
+
+      .grass {
+        background-color: green;
+      }
+
+      .poison {
+        border: 10px solid purple;
+      }
+
+      .ground {
+        background-color: grey;
+      }
+
+      .bug {
+        background-color: lightgreen;
+      }
+
+      .flying {
+        border: 10px solid skyblue;
+      }
+
+      .fighting {
+        background-color: #ccc;
+      }
+
+      .water {
+        background-color: blue;
+      }
+
+      .fire {
+        background-color: orange;
+      }
+
+      .ghost {
+        background-color: black;
+        color: white;
+      }
+
+      .electric {
+        background-color: yellow;
+      }
+
+      .ice {
+        border: 10px solid #0022FF;
+      }
+
+      .psychic {
+        border: 10px solid #FFCC00;
+      }
+
+      .fairy {
+        border: 10px solid pink;
+      }
+
+      h2 {
+        clear: both;
+      }
+
+      .active {
+        border: 10px dashed yellow;
+      }
+
+      #game {
+        background-color: #eee;
+        border: 2px solid black;
+        padding: 10px;
+        clear: both;
+      }
+    </style>
+  </head>
+
+  <body>
+    <h1>Makeup Exam</h1>
+    <p>Use your JavaScript skills to write a program that solves the following tasks. The HTML & CSS interface for this project are already written - you are simply responsible for writing the JavaScript component within the 'script' tag below.</p>
+
+    <h2>Task #1</h2>
+    <ul>
+      <li>The user will select a hand from the drop down menu. They can then click the "Add a random Pokemon" button to add a random pokemon to the desired hand.</li>
+      <li>Each hand can hold a maximum of 5 pokemon.  If the desired hand has an empty slot then the following process should take place:
+        <ul>
+          <li>A random pokemon should be selected from the supplied array.  This array contains a series of objects which describe a pokemon in detail (image source, name, and the type(s) of pokemon)</li>
+          <li>Generate a new "pokemon_card" unit which is shown below in the HTML. These units will serve to visually display a pokemon to the user. They should all have a class of 'pokemon_card' and contain the pokemon's name, an image, their starting hitPoints and custom classes applied based on their type.  You may also choose to store other data along with your "pokemon_card", such as dataset properties if that would be useful.
+
+            <div class="pokemon_card grass poison" data-hitpoints="8">
+              <p>Bulbasaur</p>
+              <img src="https://cs.nyu.edu/~kapp/CSCI-UA.0061/images_makeup/bulbasaur.png">
+              <p>HitPoints: 8</p>
+            </div>
+
+            <pre>    &lt;div class="pokemon_card grass poison" data-hitpoints="8"&gt;
+      &lt;p&gt;Bulbasaur&lt;/p&gt;
+      &lt;img src="https://cs.nyu.edu/~kapp/CSCI-UA.0061/images_makeup/bulbasaur.png"&gt;
+      &lt;p&gt;HitPoints: 8&lt;/p&gt;
+    &lt;/div&gt;</pre>
+            <br style="clear: both;">
+
+          </li>
+          <li>For example, if a pokemon is of 'grass' & 'poison' type you should create a new 'pokemon_card' div which should gain the 'grass' and 'poison' classes.</li>
+          <li>Each 'hand'' can only contain 5 pokemon in total. Once the container has been filled no additional pokemon can be added to that 'hand'.</li>
+          <li>Ensure that the same Pokemon is not picked more than one time (i.e. there can be only one 'bulbasaur' in the whole game).</li>
+        </ul>
+      </li>
+    </ul>
+
+    <h2>Task #2</h2>
+    <ul>
+      <li>Clicking on a pokemon will cause it to "battle" and lose 1 hit point.  The user should see the pokemon card change when this happens.</li>
+      <li>If a pokemon reaches 0 hit points it should be removed from its hand and placed into the 'Fainted Pokemon' container.</li>
+    </ul>
+
+    <h2>Task #3</h2>
+    <ul>
+      <li>Clicking on a pokemon in the "fainted pokemon" container will cause that pokemon to gain a class of "active".  Only one pokemon can have a class of "active" at a time.</li>
+      <li>The user can also choose to "revive" a pokemon, bringing it back to life.  This process works as follows:
+        <ul>
+          <li>A pokemon must be clicked to be marked as "active"</li>
+          <li>The user will press one of the two revive buttons ('revive into hand #1' or 'revive into hand #2')</li>
+          <li>If there is space in the desired hand the pokemon should be given a random # of hit points (an integer between 5 and 15) and moved into the desired hand.</li>
+        </ul>
+      </li>
+    </ul>
+
+    <div id="game">
+
+      <h1>Pokemon Battle!</h1>
+
+      <div id="form">
+        <select id="choice">
+          <option value="hand1">Add to Hand #1</option>
+          <option value="hand2">Add to Hand #2</option>
+        </select>
+        <button id="add">Add a random Pokemon</button>
+      </div>
+
+      <h2>Hand #1 (click a Pokemon to battle)</h2>
+      <div class="container" id="hand1"></div>
+
+      <h2>Hand #2 (click a Pokemon to battle)</h2>
+      <div class="container" id="hand2"></div>
+
+      <h2>Fainted Pokemon</h2>
+      <p>Click on a Pokemon to activate it, then select which hand it should be revived into.  Revived Pokemon will receive a random # of HitPoints.</p>
+      <button id="revive_hand1">Revive into Hand #1</button>
+      <button id="revive_hand2">Revive into Hand #2</button>
+      <div class="container" id="fainted"></div>
+
+    </div>
+
+    <script>
+      // an array of all Pokemon cards in our deck
+      let pokemon = [{
+        "filename": "https://cs.nyu.edu/~kapp/CSCI-UA.0061/images_makeup/bulbasaur.png",
+        "name": "Bulbasaur",
+        "types": ["grass", "poison"],
+        "hitPoints": 8
+      }, {
+        "filename": "https://cs.nyu.edu/~kapp/CSCI-UA.0061/images_makeup/sandshrew.png",
+        "name": "Sandshrew",
+        "types": ["ground"],
+        "hitPoints": 8
+      }, {
+        "filename": "https://cs.nyu.edu/~kapp/CSCI-UA.0061/images_makeup/beedrill.png",
+        "name": "Beedrill",
+        "types": ["bug", "poison"],
+        "hitPoints": 5
+      }, {
+        "filename": "https://cs.nyu.edu/~kapp/CSCI-UA.0061/images_makeup/butterfree.png",
+        "name": "Butterfree",
+        "types": ["bug", "flying"],
+        "hitPoints": 7
+      }, {
+        "filename": "https://cs.nyu.edu/~kapp/CSCI-UA.0061/images_makeup/machop.png",
+        "name": "Machop",
+        "types": ["fighting"],
+        "hitPoints": 10
+      }, {
+        "filename": "https://cs.nyu.edu/~kapp/CSCI-UA.0061/images_makeup/polywog.png",
+        "name": "Polywog",
+        "types": ["water"],
+        "hitPoints": 9
+      }, {
+        "filename": "https://cs.nyu.edu/~kapp/CSCI-UA.0061/images_makeup/ponita.png",
+        "name": "Ponita",
+        "types": ["fire"],
+        "hitPoints": 13
+      }, {
+        "filename": "https://cs.nyu.edu/~kapp/CSCI-UA.0061/images_makeup/koffing.png",
+        "name": "Koffing",
+        "types": ["poison"],
+        "hitPoints": 7
+      }, {
+        "filename": "https://cs.nyu.edu/~kapp/CSCI-UA.0061/images_makeup/gengar.png",
+        "name": "Gengar",
+        "types": ["ghost", "poison"],
+        "hitPoints": 13
+      }, {
+        "filename": "https://cs.nyu.edu/~kapp/CSCI-UA.0061/images_makeup/tauros.png",
+        "name": "Tauros",
+        "types": ["normal"],
+        "hitPoints": 12
+      }, {
+        "filename": "https://cs.nyu.edu/~kapp/CSCI-UA.0061/images_makeup/eevee.png",
+        "name": "Eevee",
+        "types": ["normal"],
+        "hitPoints": 13
+      }, {
+        "filename": "https://cs.nyu.edu/~kapp/CSCI-UA.0061/images_makeup/gloom.png",
+        "name": "Gloom",
+        "types": ["grass", "poison"],
+        "hitPoints": 11
+      }, {
+        "filename": "https://cs.nyu.edu/~kapp/CSCI-UA.0061/images_makeup/goldeen.png",
+        "name": "Goldeen",
+        "types": ["water"],
+        "hitPoints": 13
+      }, {
+        "filename": "https://cs.nyu.edu/~kapp/CSCI-UA.0061/images_makeup/lapras.png",
+        "name": "Lapras",
+        "types": ["water", "ice"],
+        "hitPoints": 12
+      }, {
+        "filename": "https://cs.nyu.edu/~kapp/CSCI-UA.0061/images_makeup/seel.png",
+        "name": "Seel",
+        "types": ["water"],
+        "hitPoints": 7
+      }, {
+        "filename": "https://cs.nyu.edu/~kapp/CSCI-UA.0061/images_makeup/rattata.png",
+        "name": "Rattata",
+        "types": ["normal"],
+        "hitPoints": 10
+      }, {
+        "filename": "https://cs.nyu.edu/~kapp/CSCI-UA.0061/images_makeup/magikarp.png",
+        "name": "Magikarp",
+        "types": ["water"],
+        "hitPoints": 6
+      }, {
+        "filename": "https://cs.nyu.edu/~kapp/CSCI-UA.0061/images_makeup/arcanine.png",
+        "name": "Arcanine",
+        "types": ["fire"],
+        "hitPoints": 10
+      }, {
+        "filename": "https://cs.nyu.edu/~kapp/CSCI-UA.0061/images_makeup/oddish.png",
+        "name": "Oddish",
+        "types": ["grass", "poison"],
+        "hitPoints": 10
+      }, {
+        "filename": "https://cs.nyu.edu/~kapp/CSCI-UA.0061/images_makeup/chansey.png",
+        "name": "Chansey",
+        "types": ["normal"],
+        "hitPoints": 12
+      }, {
+        "filename": "https://cs.nyu.edu/~kapp/CSCI-UA.0061/images_makeup/caterpie.png",
+        "name": "Caterpie",
+        "types": ["bug"],
+        "hitPoints": 13
+      }, {
+        "filename": "https://cs.nyu.edu/~kapp/CSCI-UA.0061/images_makeup/psyduck.png",
+        "name": "Psyduck",
+        "types": ["water"],
+        "hitPoints": 12
+      }, {
+        "filename": "https://cs.nyu.edu/~kapp/CSCI-UA.0061/images_makeup/eggsecute.png",
+        "name": "Eggsecute",
+        "types": ["grass", "psychic"],
+        "hitPoints": 12
+      }, {
+        "filename": "https://cs.nyu.edu/~kapp/CSCI-UA.0061/images_makeup/jigglypuff.png",
+        "name": "Jigglypuff",
+        "types": ["normal", "fairy"],
+        "hitPoints": 5
+      }, {
+        "filename": "https://cs.nyu.edu/~kapp/CSCI-UA.0061/images_makeup/electrabuzz.png",
+        "name": "Electrabuzz",
+        "types": ["electric"],
+        "hitPoints": 11
+      }]
+
+      // YOUR CODE GOES HERE
+      
+//	
+       
+       
+
+      let addPoke = document.getElementById("add")
+      let hand1count =0
+      let hand2count = 0
+      let headcount =0
+
+      addPoke.onclick = function(){
+      	var handChoice = document.getElementById("choice");
+       var handChoiceValue = handChoice.options[handChoice.selectedIndex].value;
+      	
+      	if (handChoiceValue == "hand1"){
+      		handcount = hand1count
+      		hand1count++
+      	}
+
+      	else{
+      		handcount = hand2count
+      		hand2count++
+      	}
+
+      	if(handcount<5){
+      		let pokeRandom = parseInt(Math.random()*pokemon.length)
+      let pokeSpecs = pokemon[pokeRandom]
+      const values = Object.values(pokeSpecs)
+      var create = document.createElement("div")
+      let pokeClass = values[2]
+      let pokeType = ""
+      for(i =0; i<pokeClass.length; i++){
+      	pokeType += pokeClass[i] + " "
+
+      }
+      create.setAttribute("class", "pokemon_card " +pokeType)
+
+
+      let p = document.createElement("p")
+      let pokeName = values[1]
+      var text = document.createTextNode(pokeName)
+      p.appendChild(text)
+      create.appendChild(p)
+      let printImg = document.createElement("IMG")
+      let pokeImg = values[0]
+      printImg.setAttribute("src", pokeImg)
+      create.appendChild(printImg)
+       let p2 = document.createElement("p")
+      let hitPoints = values[3]
+      create.setAttribute("data-hitpoints", hitPoints)
+      var textHP = document.createTextNode("HitPoints: "+hitPoints)
+      p2.appendChild(textHP)
+      create.appendChild(p2)
+      create.setAttribute("id", pokeName)
+
+
+      
+    document.getElementById(handChoiceValue).appendChild(create)
+
+      pokemon.splice(pokeRandom,1)
+
+
+
+
+      	}
+
+     
+      } 
+
+      let clickedPoke = document.getElementsByClassName("pokemon_card")
+      clickedPoke.onclick =function(){
+      	hitPoints--
+      }
+
+      
+      
+      
+
+
+      
+
+    </script>
+
+  </body>
+
+</html>

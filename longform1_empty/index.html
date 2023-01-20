@@ -1,0 +1,268 @@
+ <!doctype html>
+<html>
+  <head>
+    <title>Favorite Fruit Survey</title>
+    <style>
+      #vote_panel {
+        width: 50%;
+        float: left;
+      }
+      #result_panel {
+        padding-top: 50px;
+        width: 50%;
+        float: left;
+      }
+      .result {
+        position: relative;
+        height: 20px;
+        border: 1px solid black;
+      }
+      .result div {
+        width: 200px;
+      }
+
+      #result_apple {
+        background-color: #ff6666;
+      }
+      #result_orange {
+        background-color: orange;
+      }
+      #result_blueberry {
+        background-color: #6666ff;
+      }
+      .hidden {
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Favorite Fruit Survey</h1>
+
+    <div id="vote_panel">
+      <p>What's your favorite fruit?</p>
+      <select id="food">
+        <option value="choose">Choose a food</option>
+        <option value="apple">Apple</option>
+        <option value="orange">Orange</option>
+        <option value="blueberry">Blueberry</option>
+      </select>
+      <button id="vote_button">Vote</button>
+      <div id="error" class="hidden">
+        An error occured, please try again.
+      </div>
+    </div>
+
+    <div id="result_panel" class="hidden">
+      <div id="result_apple" class="result">
+        <div>Apple (0 votes)</div>
+      </div>
+
+      <div id="result_orange" class="result">
+        <div>Orange (0 votes)</div>
+      </div>
+
+      <div id="result_blueberry" class="result">
+        <div>Blueberry (0 votes)</div>
+      </div>
+    </div>
+
+    <br style="clear: both;">
+    <div id="admin_panel">
+      <hr>
+      Clear the vote system (type your password): <input type="text" id="password">
+      <button id="clearvotes">Clear</button>
+    </div>
+
+
+    <!-- bring in the jQuery library -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
+    <script>
+
+    $(document).ready(function() {
+
+      // DOM queries for page elements
+      let result_panel = document.querySelector('#result_panel');
+      let result_apple = document.querySelector('#result_apple');
+      let result_orange = document.querySelector('#result_orange');
+      let result_blueberry = document.querySelector('#result_blueberry');
+      let vote_button = document.querySelector("#vote_button");
+      let food = document.querySelector("#food");
+      let error = document.querySelector("#error");
+      let orangeNum = 0;
+      let appleNum = 0;
+      let blueNUm = 0;
+      let counter = 0;
+      let orangePerc = 0;
+      let applePerc = 0;
+      let bluePerc;
+
+      // Task #1: write an AJAX call to obtain the vote data from 'votes.txt'
+      // -- parse this data and identify the percentage vote for each fruit
+      // -- update the bar chart in the HTML above so that each bar has the correct width
+      // -- you can use percentages for this (i.e. width: 50%)
+
+
+        $.ajax({
+          type: "GET",
+          url: "data/votes.txt?nocache=1234",
+          data:{
+          },
+          success:function(data){
+
+            //boxes.innerHTML+=data;
+            var votes = data.split("\n");
+            console.log(votes)
+            if(votes.length>0){
+
+              result_panel.classList.remove("hidden");
+
+              for(i =0; i<votes.length; i++){
+                if(votes[i] != ""){
+                  counter++;
+                  var currVote = votes[i];
+                  if(currVote == "orange"){
+                    orangeNum++;
+
+
+
+
+                  }
+                  else if(currVote == "apple"){
+                    appleNum++;
+
+                  }
+                  else if (currVote ="blueberry") {
+                    blueNUm++;
+                    console.log(blueNUm);
+
+                  }
+                  else{
+                    console.log("spooky")
+
+                  }
+                  console.log(currVote);
+
+
+                }
+
+
+              }
+
+              orangePerc = (orangeNum/counter)*100;
+              applePerc = (appleNum/counter)*100;
+              bluePerc = (blueNUm/counter)*100;
+              result_orange.style.width= orangePerc+"%"
+              result_orange.innerHTML = "Orange("+orangeNum+" votes)"
+              result_apple.innerHTML = "Apple("+appleNum+" votes)"
+              result_blueberry.innerHTML = "Blueberry("+blueNUm+" votes)"
+              result_apple.style.width = applePerc+"%"
+              result_blueberry.style.width = bluePerc+"%"
+
+            }
+            else{
+              console.log("spooky")
+            }
+
+
+
+          },
+        });
+
+
+
+
+
+
+
+
+
+      // Task #2: let the user vote for a new food using the interface provided
+      // -- when they vote for a food, initiate an AJAX call to the file 'savefood.php'
+      // -- this program should save the food choice to the file 'votes.txt'
+      // -- this program should only accept valid votes ('apple', 'orange' or 'blueberry')
+      // -- validation must be done on the server side, not the client side
+
+      vote_button.onclick = function(event){
+
+        if(food.options[food.selectedIndex].text == "Apple" || food.options[food.selectedIndex].text == "Orange" || food.options[food.selectedIndex].text == "Blueberry"){
+          let str = food.options[food.selectedIndex].text
+          $.ajax({
+
+            type: 'POST',
+            url: 'savefood.php',
+            data: {
+              Fruit: str,
+
+            },
+            success: function(data, status) {
+              console.log("Success! Received this data from the server: ", data);
+
+            },
+            error: function(req, data, status) {
+
+            }
+
+          });
+
+
+
+        }
+        else{
+          window.alert("Please select a fruit.")
+        }
+
+
+
+      }
+
+
+
+
+
+
+
+
+
+
+
+
+      // Task #3: repeatedly get fresh data from 'votes.txt' to be parsed
+      // -- this should allow your vote system to update itself in "real time"
+      // -- note that this should work for multiple clients (i.e. if more than one
+      // -- client is voting the vote could should change for all clients)
+      // -- this may require you to redesign Task #1
+
+
+
+
+
+      // Task #4: add in the following user interface upgrades to the program
+      // -- (1) show the 'error' div when an error occurs with voting
+      // -- (the user doesn't select a fruit from the list, or something else
+      // -- happens that makes the server unable to save the request)
+      // -- hide the 'error' div if a vote was successful
+      // -- (2) initially hide the 'result_panel' and only show it when fresh data
+      // -- is received for the first time (prevents the bar chart from "jumping")
+
+
+
+
+      // Task #5: give the user the ability to clear the previous votes
+      // -- they can do this by typing the password 'webdev' into the admin
+      // -- text box.
+      // -- if the supplied password is correct the votes file will be cleared
+      // -- you may use traditional CGI techniques for this or AJAX
+
+
+
+    });
+
+
+
+
+
+    </script>
+
+  </body>
+</html>
